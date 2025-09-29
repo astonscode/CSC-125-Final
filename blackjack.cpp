@@ -47,7 +47,7 @@ int main()
             gameLoop = -1;
             break;
         default:
-            cout<<"Invalid choice.";
+            cout<<"Invalid choice.\n";
             gameLoop = 0;
             break;
 
