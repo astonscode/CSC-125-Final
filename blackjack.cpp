@@ -11,7 +11,7 @@ int main()
 
     int gameLoop = 0;
 
-    while (gameLoop != 4)
+    while (gameLoop != -1)
     {
 
         switch(gameLoop)
@@ -44,7 +44,7 @@ int main()
             break;
         case 4:
             cout<<"Thank you for playing. Goodbye!";
-            gameLoop = 4;
+            gameLoop = -1;
             break;
         default:
             cout<<"Invalid choice.";
