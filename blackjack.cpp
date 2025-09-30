@@ -43,7 +43,6 @@ int main()
             gameLoop = 0;
             break;
         case 4:
-            cout<<"Thank you for playing. Goodbye!";
             gameLoop = -1;
             break;
         default:
@@ -54,7 +53,7 @@ int main()
 
         }
     }
-
+    cout<<"Thank you for playing. Goodbye!";
 
     return 0;
 }
