@@ -7,7 +7,8 @@
 using namespace std;
 
 std::vector<std::string> cards = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-std::vector<std::string> suits = {"♠︎", "♣︎", "♦︎", "♥︎"};
+//std::vector<std::string> suits = {"♠", "♣︎", "♦︎", "♥︎"};
+std::vector<std::string> suits = {"S", "C", "D","H"};
 std::vector<std::string> played;
 
 int score;
@@ -155,15 +156,89 @@ void choice()
       }
    }
 }
+
+vector<string> deck;
+vector<string> playerHand;
+vector<string> dealerHand;
+
+void createDeck()
+{
+
+   for (int suit = 0; suit < 4; suit++)
+   {
+      for (int card = 0; card < 13; card++)
+      {
+         deck.push_back(cards[card] + " " + suits[suit]);
+
+      }
+   }
+
+}
+
+string drawCard(vector<string> deck)
+{
+
+   if (deck.empty())
+   {cout<<"Deck is empty.\n";}
+
+   int randomCard = rand() % deck.size();
+   string card = deck[randomCard];
+
+   deck.erase(deck.begin() + randomCard);
+   return card;
+}
 void Gameplay()
 {
+   playerHand.clear();
+   loop = true;
+   int option;
    //player gets two cards face up
-   //dealer gets 1 card face up
-   //player hits - gets 1 card face up. Total updates - if over 21, get 1 strike (3 strikes game over). Deal next hand
-   //player stands - dealer gets 1 card face up. If card value is <= 16, dealer must hit. otherwise, stand
-   //if dealer busts but player doesn't, 1 point to score
-   //if player has higher card value, 1 point to score
-   //if player has lower card value, 1 strike, next hand
+   //need deck create function, draw card function (random from deck)- assign combined total to player total
+   createDeck();
+   //Player bets
+   //Cards are dealt
+   while (loop)
+   {
+      playerHand.push_back(drawCard(deck));
+      playerHand.push_back(drawCard(deck));
+      for (int card = 0; card < playerHand.size(); card++)
+      {
+         cout<<"Player Card "<<card+1<<": "<<playerHand[card]<<"\n";
+      }
+      //ace check set to automatically choose best option?
+
+      cout<<"Dealer Card 1: ";
+      cout<<drawCard(deck);
+      cout<<"\n";
+
+      cout<<"1. Hit\n"
+         "2. Stand\n"
+            "3. Quit";
+
+      cin>>option;
+      switch (option)
+      {
+         case 1:
+            cout<<"Player Hit.";
+            drawCard(deck);
+            break;
+         case 2:
+         cout<<"Player Stand.";
+         //dealer logic
+         break;
+         case 3:
+         cout<<"Player Quit.\n";
+         loop = false;
+         break;
+      default:
+         cout<<"Invalid option.";
+      }
+
+      //Player decides to hit or stay
+      //if 21 or less, dealer reveals card 2
+      //if dealer has 16 or less, must hit. else, stand
+   }
+
 
 }
 void MainMenu()
@@ -189,10 +264,8 @@ void MainMenu()
 
       case 1:
          //game logic
-         play(1);
-         cout<<"Playing game...\n"
-               "...Now we're done.\n\n";
-         //Insert Gameplay function
+         Gameplay();
+
          break;
       case 2:
          //Directions
