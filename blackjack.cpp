@@ -1,6 +1,6 @@
-/*
+/*/*
  *CSC 175 W2 - Final Project
- */
+ #1#
 
 #include <iostream>
 
@@ -58,4 +58,4 @@ int main()
     cout<<"Thank you for playing. Goodbye!";
 
     return 0;
-}
+}*/
