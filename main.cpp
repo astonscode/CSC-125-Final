@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <ctime>
 
+using namespace std;
+
 std::vector<std::string> cards = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 std::vector<std::string> suits = {"♠︎", "♣︎", "♦︎", "♥︎"};
 std::vector<std::string> played;
@@ -157,10 +159,59 @@ void choice()
 int main()
 {
    srand(time(0));
-   while (loop)
+   /*while (loop)
    {
       choice();
+   }*/
+   bool continueGame = true;
+
+   while (continueGame)
+   {
+      //create display menu function for here
+      int option;
+      cout<<"Welcome to Blackjack!\n"
+        "Please choose from the options below"<<endl;
+      cout<<"1. Play Game\n"
+            "2. Directions\n"
+            "3. Hi-Scores\n"
+            "4. Exit\n";
+
+      cin>>option;
+
+      switch(option)
+      {
+      case 0:
+
+         break;
+      case 1:
+         //game logic
+         choice();
+         cout<<"Playing game...\n"
+               "...Now we're done.\n\n";
+         //Insert Gameplay function
+         break;
+      case 2:
+         //Directions
+         cout<<"This is how you play the game!\n\n";
+         //Insert Directions display function
+         break;
+      case 3:
+         //show hi-scores
+         cout<<"Hi Scores!\n\n";
+         //Insert Hi-scores display function
+         break;
+      case 4:
+         continueGame = false;
+         break;
+      default:
+         cout<<"Invalid choice.\n";
+         break;
+
+
+      }
    }
+   cout<<"Thank you for playing. Goodbye!";
+
    // score = rand() % 10;
    // int rnd = rand() % 4;
    // checkAce(suits[rnd]);
