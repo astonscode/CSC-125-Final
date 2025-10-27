@@ -155,18 +155,24 @@ void choice()
       }
    }
 }
-
-int main()
+void Gameplay()
 {
-   srand(time(0));
-   /*while (loop)
-   {
-      choice();
-   }*/
+   //player gets two cards face up
+   //dealer gets 1 card face up
+   //player hits - gets 1 card face up. Total updates - if over 21, get 1 strike (3 strikes game over). Deal next hand
+   //player stands - dealer gets 1 card face up. If card value is <= 16, dealer must hit. otherwise, stand
+   //if dealer busts but player doesn't, 1 point to score
+   //if player has higher card value, 1 point to score
+   //if player has lower card value, 1 strike, next hand
+
+}
+void MainMenu()
+{
    bool continueGame = true;
 
    while (continueGame)
    {
+
       //create display menu function for here
       int option;
       cout<<"Welcome to Blackjack!\n"
@@ -180,12 +186,10 @@ int main()
 
       switch(option)
       {
-      case 0:
 
-         break;
       case 1:
          //game logic
-         choice();
+         play(1);
          cout<<"Playing game...\n"
                "...Now we're done.\n\n";
          //Insert Gameplay function
@@ -211,6 +215,17 @@ int main()
       }
    }
    cout<<"Thank you for playing. Goodbye!";
+}
+int main()
+{
+   srand(time(0));
+   /*while (loop)
+   {
+      choice();
+   }*/
+
+   MainMenu();
+
 
    // score = rand() % 10;
    // int rnd = rand() % 4;
