@@ -172,7 +172,7 @@ void createDeck()
    {
       for (int card = 0; card < 13; card++)
       {
-         deck.push_back(cards[card] + " " + suits[suit]);
+         deck.push_back(cards[card] + suits[suit]);
 
       }
    }
@@ -192,13 +192,18 @@ string drawCard(vector<string> deck)
    return card;
 }
 
-int cardValue(char card)
+
+int cardValue(string card)
 {
-   if (card == 'K' || card == 'Q' || card == 'J')
+   if (card.length() == 3)//10 check
    {
       return 10;
    }
-   else if (card == 'A')
+   else if (card[0] == 'K' || card[0]== 'Q' || card[0]== 'J')
+   {
+      return 10;
+   }
+   else if (card[0] == 'A')
    {
       //Ace logic
       return 11; //set to 11 for now.
@@ -237,7 +242,7 @@ void Gameplay()
       {
 
          cout<<"["<<dealerHand[card]<<"],";
-         dealerScore += cardValue(dealerHand[card][0]);
+         dealerScore += cardValue(dealerHand[card]);
         //cout<<cardValue(dealerHand[card][0]);//use updateScore function
       }
       cout<<"\nDEALER: "<<dealerScore;
@@ -246,7 +251,7 @@ void Gameplay()
       for (int card = 0; card < playerHand.size(); card++)
       {
          cout<<"["<<playerHand[card]<<"],";
-         playerScore += cardValue(playerHand[card][0]);
+         playerScore += cardValue(playerHand[card]);
       }
       cout<<"\nPLAYER: "<<playerScore;
       cout<<"\n\n";
