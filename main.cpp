@@ -163,6 +163,8 @@ vector<string> deck;
 vector<string> playerHand;
 vector<string> dealerHand;
 
+int dealerScore, playerScore;
+
 void createDeck()
 {
 
@@ -190,6 +192,25 @@ string drawCard(vector<string> deck)
    return card;
 }
 
+int cardValue(char card)
+{
+   if (card == 'K' || card == 'Q' || card == 'J')
+   {
+      return 10;
+   }
+   else if (card == 'A')
+   {
+      //Ace logic
+      return 11; //set to 11 for now.
+   }
+   else
+   {
+      string belowTen = "";
+      belowTen +=card;
+      return stoi(belowTen);
+   }
+}
+
 void Gameplay()
 {
    playerHand.clear();
@@ -208,17 +229,27 @@ void Gameplay()
    //add function for this loop? maybe not
    while (loop)
    {
+      playerScore = 0;
+      dealerScore = 0;
+
       //add Hand Function - pass through vector to replace these loops
+      for (int card = 0; card < dealerHand.size(); card++)
+      {
+
+         cout<<"["<<dealerHand[card]<<"],";
+         dealerScore += cardValue(dealerHand[card][0]);
+        //cout<<cardValue(dealerHand[card][0]);//use updateScore function
+      }
+      cout<<"\nDEALER: "<<dealerScore;
+      cout<<"\n\n";
+
       for (int card = 0; card < playerHand.size(); card++)
       {
          cout<<"["<<playerHand[card]<<"],";
+         playerScore += cardValue(playerHand[card][0]);
       }
-      cout<<"\n";
-      for (int card = 0; card < dealerHand.size(); card++)
-      {
-         cout<<"["<<dealerHand[card]<<"],";
-      }
-      cout<<"\n";
+      cout<<"\nPLAYER: "<<playerScore;
+      cout<<"\n\n";
       //display value of cards showing for player and dealer
 
       //Create function to display In Game User Interface
