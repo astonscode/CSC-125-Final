@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <cstdlib>
@@ -157,6 +158,7 @@ void choice()
    }
 }
 
+//Matt Code
 vector<string> deck;
 vector<string> playerHand;
 vector<string> dealerHand;
@@ -187,51 +189,64 @@ string drawCard(vector<string> deck)
    deck.erase(deck.begin() + randomCard);
    return card;
 }
+
 void Gameplay()
 {
    playerHand.clear();
+   dealerHand.clear();
    loop = true;
    int option;
-   //player gets two cards face up
-   //need deck create function, draw card function (random from deck)- assign combined total to player total
+
    createDeck();
    //Player bets
    //Cards are dealt
+   playerHand.push_back(drawCard(deck));
+   playerHand.push_back(drawCard(deck));
+
+   dealerHand.push_back(drawCard(deck));
+
+   //add function for this loop? maybe not
    while (loop)
    {
-      playerHand.push_back(drawCard(deck));
-      playerHand.push_back(drawCard(deck));
+      //add Hand Function - pass through vector to replace these loops
       for (int card = 0; card < playerHand.size(); card++)
       {
-         cout<<"Player Card "<<card+1<<": "<<playerHand[card]<<"\n";
+         cout<<"["<<playerHand[card]<<"],";
       }
-      //ace check set to automatically choose best option?
-
-      cout<<"Dealer Card 1: ";
-      cout<<drawCard(deck);
       cout<<"\n";
+      for (int card = 0; card < dealerHand.size(); card++)
+      {
+         cout<<"["<<dealerHand[card]<<"],";
+      }
+      cout<<"\n";
+      //display value of cards showing for player and dealer
 
+      //Create function to display In Game User Interface
       cout<<"1. Hit\n"
          "2. Stand\n"
-            "3. Quit";
+            "3. Quit\n";
 
       cin>>option;
       switch (option)
       {
+         //ace check set to automatically choose best option?
          case 1:
-            cout<<"Player Hit.";
-            drawCard(deck);
+            cout<<"Player Hit.\n";
+            playerHand.push_back(drawCard(deck));
             break;
          case 2:
-         cout<<"Player Stand.";
+         cout<<"Player Stand.\n";
          //dealer logic
+         dealerHand.push_back(drawCard(deck));
+         //display dealer card total
+         //loop until dealer is over 16
          break;
          case 3:
          cout<<"Player Quit.\n";
          loop = false;
          break;
       default:
-         cout<<"Invalid option.";
+         cout<<"Invalid option.\n";
       }
 
       //Player decides to hit or stay
@@ -241,6 +256,7 @@ void Gameplay()
 
 
 }
+
 void MainMenu()
 {
    bool continueGame = true;
@@ -263,7 +279,7 @@ void MainMenu()
       {
 
       case 1:
-         //game logic
+         //Play Game
          Gameplay();
 
          break;
@@ -273,7 +289,7 @@ void MainMenu()
          //Insert Directions display function
          break;
       case 3:
-         //show hi-scores
+         //Hi-Scores
          cout<<"Hi Scores!\n\n";
          //Insert Hi-scores display function
          break;
