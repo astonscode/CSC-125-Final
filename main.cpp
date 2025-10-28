@@ -179,7 +179,7 @@ void createDeck()
 
 }
 
-string drawCard(vector<string> deck)
+string drawCard()
 {
 
    if (deck.empty())
@@ -193,29 +193,71 @@ string drawCard(vector<string> deck)
 }
 
 
-int cardValue(string card)
+int cardValue(string card, bool player)
 {
-   if (card.length() == 3)//10 check
-   {
-      return 10;
-   }
-   else if (card[0] == 'K' || card[0]== 'Q' || card[0]== 'J')
+   if (card.length() == 3||card[0] == 'K' || card[0]== 'Q' || card[0]== 'J')//10 check
    {
       return 10;
    }
    else if (card[0] == 'A')
    {
       //Ace logic
-      return 11; //set to 11 for now.
+      if (player)//doesn't need player tag unless we're implementing soft 17
+      {
+         if (playerScore + 11 > 21)
+         {
+            return 1;
+         }
+         else
+         {
+            return 11;
+         }
+      }
+      else
+      {
+         //dealer logic
+         if (dealerScore + 11 == 17 || dealerScore + 11 >21)
+         {
+            return 1;
+         }
+         return 11;
+      }
+
    }
-   else
+
+
+      return stoi(card);
+
+
+}
+//debug
+void showDecks()
+{
+   for (int i = 0; i < deck.size(); i++)
    {
-      string belowTen = "";
-      belowTen +=card;
-      return stoi(belowTen);
+      cout<<deck[i]<<" "<<endl;
+   }
+   cout<<"\nDeck size: "<<deck.size()<<"\n";
+}
+void displayHand(vector<string> deck,bool player)
+{
+   for (int card = 0; card < deck.size(); card++)
+   {
+
+      cout<<"["<<deck[card]<<"],";
+      if (player)
+      {
+
+         playerScore += cardValue(playerHand[card],true);
+      }
+      else
+      {
+         dealerScore += cardValue(dealerHand[card],false);
+
+      }
+
    }
 }
-
 void Gameplay()
 {
    playerHand.clear();
@@ -226,10 +268,10 @@ void Gameplay()
    createDeck();
    //Player bets
    //Cards are dealt
-   playerHand.push_back(drawCard(deck));
-   playerHand.push_back(drawCard(deck));
+   playerHand.push_back(drawCard());
+   playerHand.push_back(drawCard());
 
-   dealerHand.push_back(drawCard(deck));
+   dealerHand.push_back(drawCard());
 
    //add function for this loop? maybe not
    while (loop)
@@ -237,25 +279,16 @@ void Gameplay()
       playerScore = 0;
       dealerScore = 0;
 
-      //add Hand Function - pass through vector to replace these loops
-      for (int card = 0; card < dealerHand.size(); card++)
-      {
-
-         cout<<"["<<dealerHand[card]<<"],";
-         dealerScore += cardValue(dealerHand[card]);
-        //cout<<cardValue(dealerHand[card][0]);//use updateScore function
-      }
+      //Show Dealer Hand
+      displayHand(dealerHand,false);
       cout<<"\nDEALER: "<<dealerScore;
       cout<<"\n\n";
 
-      for (int card = 0; card < playerHand.size(); card++)
-      {
-         cout<<"["<<playerHand[card]<<"],";
-         playerScore += cardValue(playerHand[card]);
-      }
+      //Show Player hand
+      displayHand(playerHand,true);
       cout<<"\nPLAYER: "<<playerScore;
       cout<<"\n\n";
-      //display value of cards showing for player and dealer
+
 
       //Create function to display In Game User Interface
       cout<<"1. Hit\n"
@@ -268,18 +301,21 @@ void Gameplay()
          //ace check set to automatically choose best option?
          case 1:
             cout<<"Player Hit.\n";
-            playerHand.push_back(drawCard(deck));
+            playerHand.push_back(drawCard());
             break;
          case 2:
          cout<<"Player Stand.\n";
          //dealer logic
-         dealerHand.push_back(drawCard(deck));
+         dealerHand.push_back(drawCard());
          //display dealer card total
          //loop until dealer is over 16
          break;
          case 3:
          cout<<"Player Quit.\n";
          loop = false;
+         break;
+      case 4:
+         showDecks();
          break;
       default:
          cout<<"Invalid option.\n";
