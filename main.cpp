@@ -10,12 +10,22 @@ using namespace std;
 std::vector<std::string> cards = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
 //std::vector<std::string> suits = {"♠", "♣︎", "♦︎", "♥︎"};
 std::vector<std::string> suits = {"S", "C", "D","H"};
-std::vector<std::string> played;
+vector<string> deck;
+vector<string> playerHand;
+vector<string> dealerHand;
 
-int score;
+int dealerScore, playerScore;
+
 bool loop = true;
 
-void gameEnd()
+void createDeck();
+string drawCard(vector<string> cards);
+int cardValue(string card, bool player);
+void displayHand(vector<string> deck,bool player);
+void Gameplay();
+void MainMenu();
+
+/*void gameEnd()
 {
    if (score == 21)
    {
@@ -25,145 +35,14 @@ void gameEnd()
    {
       std::cout << "You exceeded 21...\nYou lost...";
    }
-}
-
-void updateScore(std::string value)
+}*/
+int main()
 {
-   if (value == "J" || value == "Q" || value == "K")
-   {
-      score = score + 10;
-   }
-   else
-   {
-      score = score + std::stoi(value);
-   }
+   srand(time(0));
+   MainMenu();
 
-   std::cout << "\nYour score is now " << score << ".\n";
-
-   if (score >= 21)
-   {
-      gameEnd();
-   }
+   return 0;
 }
-
-std::string checkAce(std::string suit)
-{ // Asks the user to either treat their A as a 1 or an 11.
-   if (score + 11 > 21)
-   {
-      return "1";
-   }
-   else
-   {
-      int choice;
-      bool chosen = false;
-
-      while (!chosen)
-      {
-         std::cout << score << " - Would you like to treat this A of " << suit << " as a 1 or an 11?\n[1] 1\n[2] 11\n> ";
-
-         std::cin >> choice;
-
-         if (choice == 1)
-         {
-            std::cout << "Your A of " << suit << " was treated as a 1.";
-            chosen = true;
-            return "1";
-         }
-         else if (choice == 2)
-         {
-            std::cout << "Your A of " << suit << " was treated as an 11.";
-            chosen = true;
-            return "11";
-         }
-         else
-         {
-            std::cout << "Invalid.\n";
-            chosen = false;
-         }
-      }
-      return "0";
-   }
-}
-
-bool alreadyPlayed(const std::string card)
-{
-   for (const std::string c : played)
-   {
-      if (c == card)
-      {
-         return true;
-      }
-   }
-   return false;
-}
-
-void play(int x)
-{
-   int totalCards = cards.size() * suits.size();
-   if (x > totalCards)
-      x = totalCards;
-
-   int i = 0;
-   while (i < x)
-   {
-      int randomInt = rand() % 13;
-      int ranNum = rand() % 4;
-      std::string pick = cards[randomInt] + " (" + suits[ranNum] + ")";
-
-      if (!alreadyPlayed(pick))
-      {
-         if (cards[randomInt] == "A")
-         {
-            updateScore(checkAce(suits[ranNum]));
-         }
-         else
-         {
-            std::cout << pick << " - " << -1 * played.size() + 51 << " cards remaining.\n";
-            played.push_back(pick);
-            i++;
-            updateScore(cards[randomInt]);
-         }
-      }
-   }
-}
-
-void nextTurn()
-{
-   std::cout << "Continuing...";
-   loop = false;
-}
-
-void choice()
-{
-   bool chosen = false;
-   int decision;
-   while (!chosen)
-   {
-      std::cout << "Your score is " << score << ". What would you like to do?\n[1] Hit (Draw) \n[2] Stand (DEALER's turn)\n> ";
-      std::cin >> decision;
-      if (decision == 1)
-      {
-         play(1);
-         chosen = true;
-      }
-      else if (decision == 2)
-      {
-         nextTurn();
-         chosen = true;
-      }
-      else
-      {
-         chosen = false;
-      }
-   }
-}
-
-//Matt Code
-vector<string> deck;
-vector<string> playerHand;
-vector<string> dealerHand;
-
-int dealerScore, playerScore;
 
 void createDeck()
 {
@@ -195,7 +74,7 @@ string drawCard()
 
 int cardValue(string card, bool player)
 {
-   if (card.length() == 3||card[0] == 'K' || card[0]== 'Q' || card[0]== 'J')//10 check
+   if ((card[0] == '1' && card[1]=='0')||card[0] == 'K' || card[0]== 'Q' || card[0]== 'J')//10 check
    {
       return 10;
    }
@@ -215,7 +94,7 @@ int cardValue(string card, bool player)
       }
       else
       {
-         //dealer logic
+         //dealer
          if (dealerScore + 11 == 17 || dealerScore + 11 >21)
          {
             return 1;
@@ -226,19 +105,11 @@ int cardValue(string card, bool player)
    }
 
 
-      return stoi(card);
+   return stoi(card);
 
 
 }
-//debug
-void showDecks()
-{
-   for (int i = 0; i < deck.size(); i++)
-   {
-      cout<<deck[i]<<" "<<endl;
-   }
-   cout<<"\nDeck size: "<<deck.size()<<"\n";
-}
+
 void displayHand(vector<string> deck,bool player)
 {
    for (int card = 0; card < deck.size(); card++)
@@ -314,9 +185,7 @@ void Gameplay()
          cout<<"Player Quit.\n";
          loop = false;
          break;
-      case 4:
-         showDecks();
-         break;
+
       default:
          cout<<"Invalid option.\n";
       }
@@ -376,20 +245,4 @@ void MainMenu()
       }
    }
    cout<<"Thank you for playing. Goodbye!";
-}
-int main()
-{
-   srand(time(0));
-   /*while (loop)
-   {
-      choice();
-   }*/
-
-   MainMenu();
-
-
-   // score = rand() % 10;
-   // int rnd = rand() % 4;
-   // checkAce(suits[rnd]);
-   return 0;
 }
