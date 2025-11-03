@@ -222,6 +222,7 @@ void resetHand()
 void dealerLogic()
 {
    bool logic = true;
+   calculateDealerHandValue();
    //dealerHand.push_back(drawCard());
    while (logic)
    {
@@ -239,20 +240,11 @@ void dealerLogic()
          displayHand(playerHand, true);
          cout<<"-----------------------------------\n";
          logic = false;
-
+         break;
 
          //pay player
       }
-      else if (dealerScore > playerScore && dealerScore >16)
-      {
-         cout<<"-----------------------------------\n";
-         cout<<dealerScore<<". Player loses. \n\n";
-         displayHand(dealerHand,false);
-         displayHand(playerHand,true);
-         cout<<"-----------------------------------\n";
-         logic = false;
 
-      }
 
       else if (dealerScore <= 16)
       {
@@ -272,6 +264,7 @@ void dealerLogic()
          cout<<"-----------------------------------\n";
 
          logic = false;
+         break;
       }
       else if (dealerScore <21 && playerScore == 21)
       {
@@ -281,6 +274,27 @@ void dealerLogic()
          displayHand(playerHand, true);
          cout<<"-----------------------------------\n";
          logic = false;
+         break;
+      }
+      else if (dealerScore >16)
+      {
+         if (dealerScore > playerScore)
+         {
+            cout<<"-----------------------------------\n";
+            cout<<dealerScore<<". Player loses. \n\n";
+            displayHand(dealerHand,false);
+            displayHand(playerHand,true);
+            cout<<"-----------------------------------\n";
+         }
+         else
+         {
+            cout<<"-----------------------------------\n";
+            cout<<dealerScore<<". Player Wins. \n\n";
+            displayHand(dealerHand,false);
+            displayHand(playerHand,true);
+            cout<<"-----------------------------------\n";
+         }
+         break;
       }
 
       dealerHand.push_back(drawCard());
